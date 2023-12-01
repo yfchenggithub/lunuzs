@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat" cloud functions deploy --e lunuzs-3gifgqz3f1f96c4c --n quickstartFunctions --r --project "C:\Users\yfcheng\WeChatProjects\lunuzs" --report_first --report

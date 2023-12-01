@@ -1,0 +1,9 @@
+<!--pages/haoren/haoren.wxml-->
+<van-notice-bar left-icon="volume-o" color="#04BE02" background="#fff" mode="closeable" scrollable text="文明驾驶，分享小程序收益"/>
+<van-notify id="van-notify" />
+<van-cell-group inset style="margin-top: 50rpx;" title="最新提交" wx:if="{{latest_haoren_list.length != 0}}">
+  <view wx:for="{{latest_haoren_list}}" wx:key="subscribe_key" wx:for-index="idx" wx:for-item="item">
+    <van-cell title="{{item.car_name}}" label="{{item.car_time}}" value="{{item.car_comment}}" bind:click="onClickToCarDetails" data-car="{{item.car_name}}" data-carnum="{{item.car_num}}" data-carIndex="{{item.car_index}}" />
+  </view>
+  <!-- <van-cell wx:if="{{user_subscribe_list.length != 0}}" title="全部取消" bind:click="onClickCancelAllSubs" /> -->
+</van-cell-group>

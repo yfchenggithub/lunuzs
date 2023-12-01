@@ -1,0 +1,70 @@
+<!--pages/index/index.wxml-->
+<!-- van-notice-bar组件引用必须放在app.json里面 放在index.json里面会报错 -->
+<van-notice-bar left-icon="volume-o" color="#04BE02" background="#fff" mode="closeable" scrollable text="{{d_notice}}" data-num="{{d_notice}}" bind:click="onCopyNotice"/>
+<van-notify id="van-notify" />
+
+<!-- 这里可显示一张图片或是文字 强调一下相应的品牌 -->
+<view class="weui-tab__content_title">
+  <image mode="aspectFit" style="height:300rpx;" src="../../images/official.png" bindtap="onCopySlogan" data-text="路怒症指数"></image>
+</view>
+
+<van-search label="查询车牌" placeholder="请输入车牌后四位" bind:search="onSearchCar" bind:cancel="onCancel" />
+
+<van-cell-group inset style="margin-top: 50rpx;" title="最新提交" wx:if="{{latest_submit_list.length != 0}}">
+  <view wx:for="{{latest_submit_list}}" wx:key="subscribe_key" wx:for-index="idx" wx:for-item="item">
+    <van-cell title="{{item.car_name}}" label="{{item.car_time}}" value="{{item.car_comment}}" bind:click="onClickToCarDetails" data-car="{{item.car_name}}" data-carnum="{{item.car_num}}" data-carIndex="{{item.car_index}}" />
+  </view>
+  <!-- <van-cell wx:if="{{user_subscribe_list.length != 0}}" title="全部取消" bind:click="onClickCancelAllSubs" /> -->
+</van-cell-group>
+
+<van-cell-group inset style="margin-top: 50rpx;" title="订阅列表" wx:if="{{user_subscribe_list.length != 0}}">
+  <view wx:for="{{user_subscribe_list}}" wx:key="subscribe_key" wx:for-index="idx" wx:for-item="item">
+    <van-cell title="{{item.car_name}}" value="累计指数:{{item.car_index}}" bind:click="onClickToCarDetails" data-car="{{item.car_name}}" data-carnum="{{item.car_num}}" data-carIndex="{{item.car_index}}" />
+  </view>
+  <van-cell wx:if="{{user_subscribe_list.length != 0}}" title="全部取消" bind:click="onClickCancelAllSubs" />
+</van-cell-group>
+
+<!-- 搜索历史列表 -->
+<van-cell-group inset style="margin-top: 50rpx;" title="搜索历史列表" wx:if="{{user_search_history_list.length != 0}}">
+  <view wx:for="{{user_search_history_list}}" wx:key="history_key" wx:for-index="idx" wx:for-item="item">
+    <van-cell title="{{item.car_name}}" value="累计指数:{{item.car_index}}" bind:click="onClickToCarDetails" data-car="{{item.car_name}}" data-carnum="{{item.car_num}}" data-carIndex="{{item.car_index}}" />
+  </view>
+  <van-cell wx:if="{{user_search_history_list.length != 0}}" title="全部删除" bind:click="onClickToDelAllHistory" />
+</van-cell-group>
+
+<!-- <van-grid clickable center column-num="2" style="height: 500rpx; margin-top: 20rpx;">
+  <van-grid-item icon="photo-o" text="历史指数:{{history_index}}" dot />
+  <van-grid-item icon="photo-o" text="当天指数:{{today_index}}" />
+  <van-grid-item icon="photo-o" text="top10排行榜" />
+  <van-grid-item icon="photo-o" text="联系我们" />
+</van-grid> -->
+
+<!-- <view style="margin-top: 68rpx;">
+  <view class="container"> -->
+<!-- <ec-canvas id="mychart-dom-line-today" canvas-id="mychart-line-today" ec="{{ today_index_ec }}"></ec-canvas> -->
+<!-- <ec-canvas id="mychart-dom-line-history" canvas-id="mychart-line-history" ec="{{ history_index_ec }}"></ec-canvas>
+    <ec-canvas id="mychart-dom-pie-history" canvas-id="mychart-pie-history" ec="{{ history_index_pie_ec }}"></ec-canvas>
+  </view>
+</view> -->
+
+
+<!-- <view style="display:flex;margin-top: 200rpx; align-items: center; justify-content: center;">
+  <van-button plain type="info" color="gray" hairline size="normal" bind:click="onClickAboutMe">关于路怒症指数</van-button>
+  <van-button plain type="info" color="gray" style="margin-left: 20rpx;" hairline size="normal" bind:click="onSelectMode">进入提交指数页面</van-button>
+</view> -->
+
+<!-- /这里就是一个大大的加号
+<van-icon name="plus" color="gray" size="200rpx" bind:click="onSelectMode" /> -->
+<van-action-sheet show="{{ show }}" actions="{{ actions }}" bind:close="onClose" bind:select="onSelect" />
+
+<!-- 下面这个已经diable, move to about.me这个tab标签当中， 目前可以测试成功 20230311 -->
+<!-- <view wx:if="{{is_admin}}">
+  <form>
+    <van-cell-group>
+      <van-field value="{{ d_notice }}" label="公告" type="textarea" placeholder="请输入内容，最多300个字" autosize border="{{ false }}" bind:change="onNoticeInput" />
+    </van-cell-group>
+    <view class="btn-area">
+      <button style="margin: 30rpx 0" type="primary" formType="submit" bindtap="onSettingNotice">设置公告</button>
+    </view>
+  </form>
+</view> -->

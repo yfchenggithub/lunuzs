@@ -1,0 +1,19 @@
+{
+  "usingComponents": {
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-notify": "@vant/weapp/notify/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-circle": "@vant/weapp/circle/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index"
+  },
+  "navigationBarTitleText": "路怒症指数-提交"
+}

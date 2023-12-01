@@ -1,0 +1,117 @@
+<!-- <van-notice-bar left-icon="volume-o" color="#04BE02" background="#fff" mode="link" bind:click="onCopyQQGroupNum" data-text="470160830" scrollable text="加入路怒症指数交流QQ群 470-160-830 单击一键复制" /> -->
+<van-notice-bar left-icon="volume-o" color="#04BE02" background="#fff" mode="link"  scrollable text="推荐使用水印相机拍照上传" />
+
+<van-overlay show="{{ isShowCommitOverlay }}">
+  <view class="wrapper">
+    <van-circle value="{{ submitProcess }}" text="正在提交" layer-color="#eeeeee" color="#ee0a24" />
+  </view>
+</van-overlay>
+<van-notify id="van-notify" />
+<view class="page" style="margin-top: 100rpx;">
+  <!-- 第一部分 提示 -->
+  <!-- <button class="carNumberBtn" bindtap='onChangeToDriveMode' type="primary">推荐使用水印相机拍照上传</button> -->
+
+  <!-- 上传照片 -->
+  <view class="weui-cells__title">请上传照片,最大1M</view>
+
+  <view bindtap='openKeyboard'>
+    <!-- 通过向组件传入file-list属性，可以绑定已经上传的图片列表，并展示图片列表的预览图 -->
+    <van-uploader file-list="{{ userUploadFileList }}" max-count="1" max-size="{{ImgMaxUploadSize}}" bind:oversize="onImgOverSize" bind:delete="deleteImg" sizeType="compressed" bind:after-read="afterRead" style="padding-left: 30rpx;" />
+  </view>
+
+
+  <!-- 车牌号码输入框 -->
+  <view class="carNumber">
+    <view class="weui-cells__title">请输入车牌号码</view>
+    <!-- 车牌号头两位 -->
+    <view class="carNumber-items">
+      <view class="carNumber-items-box" bindtap='openKeyboard'>
+        <view class="carNumber-items-province carNumber-items-box-list">{{carnum[0] || ''}}</view>
+        <view class="carNumber-items-En carNumber-items-box-list">{{carnum[1] || ''}}</view>
+      </view>
+      <!-- 常规 -->
+      <view class="carNumber-item" bindtap='openKeyboard'>{{carnum[2] || ''}}</view>
+      <view class="carNumber-item" bindtap='openKeyboard'>{{carnum[3] || ''}}</view>
+      <view class="carNumber-item" bindtap='openKeyboard'>{{carnum[4] || ''}}</view>
+      <view class="carNumber-item" bindtap='openKeyboard'>{{carnum[5] || ''}}</view>
+      <view class="carNumber-item" bindtap='openKeyboard'>{{carnum[6] || ''}}</view>
+      <!-- 新能源 -->
+      <view class="carNumber-item {{showNewEnergy ? '': 'carNumber-item-newpower'}}">
+        <view wx:if="{{!showNewEnergy}}" bindtap='showPowerBtn'>
+          <view class="carNumber-newpower-add">+</view>
+          <view>新能源</view>
+        </view>
+        <view wx:if="{{showNewEnergy}}" bindtap='openKeyboard'>
+          {{carnum[7]}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <van-cell-group style="margin-top: 200rpx;">
+    <van-field value="{{ car_comment }}" label="备注" placeholder="请输入备注" autosize required border="{{ false }}" bind:change="onChangeComment" bind:focus="onFocusCommentInputFiled">
+      <van-button slot="button" size="small" type="primary" bind:click="onGetRemarks">
+        修改备注
+      </van-button>
+    </van-field>
+    <van-field value="{{ car_time }}" label="时间" placeholder="请输入时间" autosize required border="{{ false }}" bind:change="onChangeTime" bind:focus="onFocusTimeInputFiled" use-datetime-picker-slot>
+      <van-button slot="button" size="small" type="primary" bind:click="onGetCurrentTime">
+        修改时间
+      </van-button>
+    </van-field>
+    <van-field value="{{ car_place }}" bind:change="onManualInputCarPlace" bind:focus="onFocusPlaceInputFiled" autosize center required clearable label="地点" placeholder="请输入地点" border="{{ false }}" use-button-slot>
+      <van-button slot="button" size="small" type="primary" bind:click="onGetUserLocation">
+        修改位置
+      </van-button>
+    </van-field>
+  </van-cell-group>
+
+  <!-- <van-popup show="{{ showPopupDate }}" position="bottom" custom-style="height: 30%" bind:close="onCloseDate">
+    <van-datetime-picker type="datetime" value="{{ currentDate }}" formatter="{{ formatter }}" min-date="{{ minDate }}" max-date="{{ maxDate }}" bind:confirm="onConfirmTime" bind:cancel="onCancelTime" />
+  </van-popup> -->
+
+  <van-calendar show="{{ showPopupDate }}" bind:close="onCloseCalendar" bind:confirm="onConfirmCalendar" />
+  <!-- <van-picker columns="{{ columns }}" bind:change="onChange" /> -->
+
+  <!-- <van-action-sheet show="{{ showRemarks }}" actions="{{ remark_actions }}" bind:close="onCloseRemarksPop" bind:select="onSelectRemarksPop" /> -->
+
+  <!-- 提交车牌 -->
+  <button class="carNumberBtn" bindtap='submitAngryCarEvent' type="primary">提交</button>
+  <button class="carNumberBtn" bindtap='resetInput' type="primary">重置</button>
+
+  <van-action-sheet overlay="true" show="{{ showRemarks }}" z-index="10000" actions="{{ remark_actions }}" bind:close="onCloseRemarksPop" bind:select="onSelectRemarksPop" />
+
+  <!-- 虚拟键盘 -->
+  <view class="keyboard" hidden='{{!InputCarKeyboardState}}'>
+    <view class="keyboardClose">
+      <view class="keyboardClose_btn" bindtap='closeKeyboard'>关闭</view>
+    </view>
+    <!-- 省份简写键盘 -->
+    <view class="keyboard-item" hidden="{{carnum[0]}}">
+      <view class="keyboard-line" wx:for="{{provinces}}" wx:key="itiskey">
+        <view class="keyboard-btn" wx:for="{{item}}" wx:key="itiskey" data-val="{{itemlist}}" wx:for-item="itemlist" bindtap='bindChoose'>{{itemlist}}</view>
+      </view>
+      <view class="keyboard-del" bindtap='bindDelChoose'>
+        <text class="font_family icon-shanchu keyboard-del-font">x</text>
+      </view>
+    </view>
+    <!-- 车牌号码选择键盘 -->
+    <view class="keyboard-item iscarnumber" hidden="{{!carnum[0]}}">
+      <!-- <view class="keyboard-line" wx:for="{{numbers}}" wx:key="{{index}}"> -->
+      <view class="keyboard-line" wx:for="{{numbers}}" wx:key="itiskey">
+        <view class="keyboard-btn" wx:for="{{item}}" wx:key="itiskey" data-val="{{itemlist}}" wx:for-item="itemlist" bindtap='bindChoose'>{{itemlist}}</view>
+      </view>
+      <view class="keyboard-del" bindtap='bindDelChoose'>
+        <text class="font_family icon-shanchu keyboard-del-font">x</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view>
+  <canvas type="2d" id='attendCanvasId' style='width:{{ca_width}}px;height:{{ca_height}}px;position: fixed;top: -9999px;left: -9999px;'></canvas>
+</view>
+
+<!-- <view>
+  <canvas type="2d" id='attendCanvasId' style='margin-top: 1500rpx; width:{{ca_width}}px;height:{{ca_height}}px; border: 2px solid;'></canvas>
+</view> -->

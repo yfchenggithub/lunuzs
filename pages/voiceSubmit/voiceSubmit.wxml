@@ -1,0 +1,36 @@
+<van-notify id="van-notify" />
+<!-- 
+<button class="carNumberBtn" bindtap='onChangeToTextMode' type="default">切换至普通模式</button>
+
+<view wx:for="{{recordList}}" wx:for-index="idx" wx:for-item="itemName">
+  <van-swipe-cell right-width="{{ 120 }}">
+    <van-cell-group>
+      <van-cell title="{{itemName.time}}" value="{{itemName.place}}" />
+    </van-cell-group>
+    <view slot="right" class="right">
+      <view class="item" bindtap="onEditRecord" data-idx="{{idx}}">编辑</view>
+      <view class="item" bindtap="onDelRecord" data-del_idx="{{idx}}">删除</view>
+    </view>
+  </van-swipe-cell>
+</view>
+
+<van-button bind:click='onfastRecord' type="primary" size="large" style="margin-top: 400rpx;">快速纪录</van-button> -->
+
+<view class="yuyinWrap">
+  <textarea class='yuyinCon' placeholder='请输入内容' value='{{content}}'></textarea>
+  <view class=''>
+    <button class="yuyinBtn {{recordState == true ? 'yuyinBtnBg':''}}" bindtouchstart="touchStart" bindtouchend="touchEnd">
+      <text wx:if="{{recordState == false}}">按住 说话</text>
+      <text wx:else>松开 结束</text>
+    </button>
+
+    <button class="yuyinBtn {{VoiceMode == true ? 'yuyinBtnBg':''}}" bindtap="BeginTakePhotoVoice">
+      <text wx:if="{{VoiceMode == false}}">开始语音拍照</text>
+      <text wx:else>结束语音拍照</text>
+    </button>
+  </view>
+</view>
+
+<camera device-position="back" flash="on" style="width: 200rpx; height: 200rpx;"></camera>
+<button type="primary" bindtap="takePhoto">拍照</button>
+<image mode="widthFix" src="{{src}}"></image>

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-notify": "@vant/weapp/notify/index"
+  },
+  "navigationBarTitleText": "关于路怒症指数"
+}

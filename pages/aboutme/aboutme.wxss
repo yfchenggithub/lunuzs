@@ -1,0 +1,21 @@
+.user-section {
+  margin-bottom: 20rpx;
+}
+
+.user-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.app-section {
+  margin-top: 20rpx;
+}
+
+.app-text {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #777;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
